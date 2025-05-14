@@ -46,7 +46,7 @@ jobs:
 
       - name: Run format check
         run: npm run format
-      # this uses all are predefined
+      # this uses all are predefine
       - name: Check commit messages
         uses: wagoid/commitlint-github-action@v3
         with:
