@@ -46,8 +46,11 @@ jobs:
 
       - name: Run format check
         run: npm run format
-      # this uses all are predefine
-      - name: Check commit messages
-        uses: wagoid/commitlint-github-action@v3
-        with:
-          configFile: commitlint.config.cjs
+      # # this uses all are predefine
+      # - name: Check commit messages
+      #   uses: wagoid/commitlint-github-action@v3
+      #   with:
+      #     configFile: commitlint.config.cjs
+      - name: Lint commit messages
+        run: |
+          npx commitlint --from=HEAD~10 --to=HEAD --config commitlint.config.cjs
