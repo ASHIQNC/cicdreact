@@ -51,6 +51,17 @@ jobs:
       #   uses: wagoid/commitlint-github-action@v3
       #   with:
       #     configFile: commitlint.config.cjs
+      # - name: Lint commit messages
+      #   run: |
+      #     npx commitlint --from=HEAD~10 --to=HEAD --config commitlint.config.cjs
+
+      - name: Get commit range
+        id: vars
+        run: echo "range=$(git rev-list --no-merges --first-parent ${{ github.event.before }}..${{ github.sha }})" >> $GITHUB_OUTPUT
+
       - name: Lint commit messages
         run: |
-          npx commitlint --from=HEAD~10 --to=HEAD --config commitlint.config.cjs
+          for commit in ${{ steps.vars.outputs.range }}; do
+          echo "Checking commit $commit"
+          git show -s --format=%B $commit | npx commitlint --config commitlint.config.cjs
+          done
